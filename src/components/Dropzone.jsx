@@ -1,7 +1,6 @@
 import React, { useCallback } from 'react';
 import { useDropzone } from 'react-dropzone';
 import { UploadCloud, ShieldCheck } from 'lucide-react';
-import './Dropzone.css';
 
 const Dropzone = ({ onDropFile }) => {
   const onDrop = useCallback((acceptedFiles) => {
@@ -24,22 +23,29 @@ const Dropzone = ({ onDropFile }) => {
   });
 
   return (
-    <div className="dropzone-wrapper glass-panel">
+    <div className="flex flex-col gap-6 w-full">
       <div 
         {...getRootProps()} 
-        className={`dropzone-area ${isDragActive ? 'active' : ''}`}
+        className={`border-2 border-dashed rounded-lg p-10 flex flex-col items-center justify-center text-center cursor-pointer transition-all duration-300 min-h-[250px]
+          ${isDragActive ? 'border-leica-red bg-red-900/10' : 'border-leica-gray bg-leica-darkgray hover:border-gray-500 hover:bg-gray-800'}`}
       >
         <input {...getInputProps()} />
-        <UploadCloud size={48} color={isDragActive ? 'var(--primary-color)' : 'var(--text-secondary)'} />
-        <h3>{isDragActive ? 'Drop photo here' : 'Drag & Drop your photo here'}</h3>
-        <p>Supports JPEG, ARW, DNG, CR2, NEF, DSC</p>
+        <UploadCloud size={56} className={`mb-4 ${isDragActive ? 'text-leica-red' : 'text-gray-500'}`} />
+        <h3 className="text-xl font-medium text-white mb-2">
+          {isDragActive ? 'Drop photo here' : 'Drag & Drop your photo'}
+        </h3>
+        <p className="text-sm text-leica-lightgray">
+          Supports JPEG, ARW, DNG, CR2, NEF, DSC
+        </p>
       </div>
       
-      <div className="privacy-badge">
-        <ShieldCheck size={20} color="#34c759" />
+      <div className="flex items-start gap-4 bg-green-900/20 border border-green-900/50 rounded-lg p-4">
+        <ShieldCheck size={24} className="text-green-500 shrink-0 mt-0.5" />
         <div>
-          <strong>100% Secure & Private</strong>
-          <p>Your photos are processed locally in your browser and never sent to any server.</p>
+          <strong className="block text-green-500 mb-1">100% Secure & Private</strong>
+          <p className="text-xs text-gray-400 m-0 leading-relaxed">
+            서버에 사진이 저장되지 않습니다. 모든 메타데이터 삭제 및 픽셀 보정 연산은 귀하의 브라우저 내에서 안전하게 로컬로 처리됩니다.
+          </p>
         </div>
       </div>
     </div>

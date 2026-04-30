@@ -1,27 +1,25 @@
 import React from 'react';
-import './Tabs.css';
 
 const Tabs = ({ activeTab, onChangeTab }) => {
   return (
-    <div className="tabs-container">
+    <div className="flex gap-2 bg-leica-darkgray p-1 rounded-lg border border-leica-gray w-full max-w-md mx-auto mb-6">
       <button 
-        className={`tab-btn ${activeTab === 'clean' ? 'active' : ''}`}
+        className={`flex-1 py-2 text-sm font-medium rounded transition-all duration-200 ${activeTab === 'clean' ? 'bg-leica-gray text-white shadow' : 'text-leica-lightgray hover:text-white'}`}
         onClick={() => onChangeTab('clean')}
       >
-        Clean Exif
+        EXIF Cleaner
       </button>
       <button 
-        className={`tab-btn ${activeTab === 'view' ? 'active' : ''}`}
-        onClick={() => onChangeTab('view')}
+        className={`flex-1 py-2 text-sm font-medium rounded transition-all duration-200 ${activeTab === 'edit' ? 'bg-leica-gray text-white shadow' : 'text-leica-lightgray hover:text-white'}`}
+        onClick={() => onChangeTab('edit')}
       >
-        View Exif
+        RAW Editor
       </button>
       <button 
-        className={`tab-btn premium-tab ${activeTab === 'support' ? 'active' : ''}`}
+        className={`flex-1 py-2 text-sm font-medium rounded transition-all duration-200 ${activeTab === 'support' ? 'bg-leica-red text-white shadow' : 'text-red-500 hover:text-red-400'}`}
         onClick={() => onChangeTab('support')}
-        style={{ color: activeTab === 'support' ? '#e91e63' : 'var(--text-secondary)' }}
       >
-        Support Us ♥
+        Support Us
       </button>
     </div>
   );
