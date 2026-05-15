@@ -31,11 +31,13 @@
     @apply w-full h-1 bg-leica-gray rounded-lg appearance-none cursor-pointer outline-none;
   }
   input[type=range]::-webkit-slider-thumb {
-    @apply appearance-none w-4 h-4 bg-white rounded-full cursor-pointer;
+    @apply appearance-none w-4 h-4 bg-transparent rounded-full cursor-pointer transition-all duration-200;
+    border: 2px solid white;
     box-shadow: 0 0 4px rgba(0,0,0,0.5);
   }
   input[type=range]::-webkit-slider-thumb:hover {
-    @apply bg-leica-red;
+    border-color: theme('colors.leica.red');
+    transform: scale(1.2);
   }
 }
 
@@ -43,9 +45,6 @@
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;
-}
-::-webkit-scrollbar-track {
-  background: #121212; 
 }
 ::-webkit-scrollbar-thumb {
   background: #333; 

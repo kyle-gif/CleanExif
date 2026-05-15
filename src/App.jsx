@@ -41,16 +41,24 @@ function App() {
         {/* Left Sidebar (Ad Space) - Hidden on smaller screens */}
         <div className="hidden xl:flex w-[250px] flex-col gap-6 shrink-0">
           <div className="sticky top-6 flex flex-col gap-6">
-            <AdPlaceholder type="interstitial" className="min-h-[600px]" />
+            {file && <AdPlaceholder type="interstitial" className="min-h-[600px]" />}
           </div>
         </div>
 
         {/* Center Main Column */}
         <div className="flex-1 flex flex-col min-w-0">
           {!file && (
-            <div className="flex flex-col gap-6">
-              <Dropzone onDropFile={handleDropFile} />
-              <AdPlaceholder type="banner" />
+            <div className="flex flex-col gap-8 items-center text-center mt-4 mb-8">
+              <h2 className="text-3xl md:text-5xl font-bold text-white tracking-wide">
+                Clean<span className="text-leica-red">Exif</span>
+              </h2>
+              <p className="text-lg text-leica-lightgray max-w-2xl">
+                Free, Secure, and 100% Private EXIF Metadata Editor & Remover. <br className="hidden md:block"/>
+                Your photos never leave your device.
+              </p>
+              <div className="w-full mt-4">
+                <Dropzone onDropFile={handleDropFile} />
+              </div>
             </div>
           )}
 
@@ -62,14 +70,20 @@ function App() {
               {activeTab === 'edit' && <PhotoEditor file={file} onClearFile={clearFile} />}
               {activeTab === 'view' && <ViewExifView file={file} />}
               {activeTab === 'support' && (
-                <div className="panel flex flex-col gap-6 text-center">
+                <div className="panel flex flex-col gap-6 text-center items-center">
                   <h2 className="text-2xl font-bold text-white">Support Our Free Tool</h2>
-                  <p className="text-leica-lightgray">
-                    CleanExif is 100% free and private. Please consider clicking an ad below to help us maintain the servers (even if there are none for the app!).
+                  <p className="text-leica-lightgray max-w-lg">
+                    CleanExif is 100% free and private. If you find this tool helpful, please consider buying us a coffee on Ko-Fi or clicking an ad to help maintain development!
                   </p>
-                  <AdPlaceholder type="banner" />
-                  <AdPlaceholder type="interstitial" />
-                  <AdPlaceholder type="banner" />
+                  
+                  <a href="https://ko-fi.com/" target="_blank" rel="noreferrer" className="btn btn-primary px-8 py-3 text-lg font-bold rounded-full my-4 inline-block max-w-xs">
+                    ☕ Buy me a Ko-fi
+                  </a>
+
+                  <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+                    <AdPlaceholder type="interstitial" />
+                    <AdPlaceholder type="interstitial" />
+                  </div>
                 </div>
               )}
               
@@ -83,12 +97,18 @@ function App() {
 
           {/* SEO Articles at the bottom of the main column */}
           <Articles />
+          
+          {!file && (
+            <div className="mt-8">
+              <AdPlaceholder type="banner" />
+            </div>
+          )}
         </div>
 
         {/* Right Sidebar (Ad Space) */}
         <div className="w-full xl:w-[250px] flex flex-col gap-6 shrink-0">
           <div className="sticky top-6 flex flex-col gap-6">
-            <AdPlaceholder type="interstitial" className="min-h-[600px]" />
+            {file && <AdPlaceholder type="interstitial" className="min-h-[600px]" />}
           </div>
         </div>
 

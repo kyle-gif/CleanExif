@@ -1,49 +1,99 @@
 import React from 'react';
+import { Shield, Cpu, Image as ImageIcon, Edit3 } from 'lucide-react';
 
 const Articles = () => {
   return (
-    <div className="mt-16 border-t border-leica-gray pt-12 mb-12">
-      <h2 className="text-2xl font-bold text-white mb-8 text-center uppercase tracking-widest">Photography Journal</h2>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+    <div className="mt-20 border-t border-leica-gray pt-16 mb-16 text-leica-lightgray font-sans">
+      <div className="max-w-5xl mx-auto flex flex-col gap-16">
         
-        {/* Card 1 */}
-        <article className="bg-leica-darkgray border border-leica-gray rounded-xl overflow-hidden shadow-lg transition-transform hover:-translate-y-1 duration-300">
-          <div className="h-40 bg-black/50 flex items-center justify-center border-b border-leica-gray">
-            <span className="text-5xl opacity-80">🕵️‍♂️</span>
+        {/* Header Section */}
+        <div className="text-center mb-8">
+          <h2 className="text-3xl md:text-4xl font-extrabold text-white mb-6 tracking-tight">
+            Understanding and Managing Image Metadata
+          </h2>
+          <p className="text-lg md:text-xl text-gray-400 max-w-3xl mx-auto leading-relaxed">
+            A comprehensive guide to EXIF data, digital privacy, and the technical mechanisms behind secure, client-side photo processing.
+          </p>
+        </div>
+
+        {/* Section 1 */}
+        <section className="flex flex-col md:flex-row gap-8 items-start">
+          <div className="md:w-1/3 flex flex-col gap-4">
+            <div className="w-12 h-12 rounded-full bg-leica-darkgray border border-leica-gray flex items-center justify-center">
+              <Shield className="text-leica-red" size={24} />
+            </div>
+            <h3 className="text-xl font-bold text-white">The Hidden Footprint: What is EXIF Data?</h3>
           </div>
-          <div className="p-6 flex flex-col gap-3">
-            <h3 className="text-lg font-bold text-white leading-snug">메타데이터(EXIF) 삭제의 중요성</h3>
-            <p className="text-sm text-gray-400 leading-relaxed">
-              스마트폰이나 디지털 카메라로 찍은 사진에는 촬영 시간, 카메라 기종뿐만 아니라 <strong>정확한 GPS 위치 정보</strong>가 숨겨져 있습니다. SNS에 원본을 그대로 올릴 경우 동선이 노출될 수 있으므로 배포 전 EXIF 제거는 필수입니다.
+          <div className="md:w-2/3 flex flex-col gap-5 text-base md:text-lg text-gray-300 leading-relaxed">
+            <p>
+              When a photograph is captured using a modern digital camera or smartphone, the image file contains far more than just pixel data. It embeds Exchangeable Image File Format (EXIF) metadata. This standard, established by the Japan Electronic Industries Development Association (JEIDA), records precise technical specifications at the moment of capture.
+            </p>
+            <p>
+              This includes exposure settings (shutter speed, aperture, ISO), camera model, focal length, and most critically, <strong>GPS latitude and longitude coordinates</strong>. While this information is invaluable for professional photographers analyzing their workflow, it poses a significant privacy risk when images are shared publicly on social media platforms or public forums, potentially exposing the exact location of a user's home or daily routines.
             </p>
           </div>
-        </article>
-        
-        {/* Card 2 */}
-        <article className="bg-leica-darkgray border border-leica-gray rounded-xl overflow-hidden shadow-lg transition-transform hover:-translate-y-1 duration-300">
-          <div className="h-40 bg-black/50 flex items-center justify-center border-b border-leica-gray">
-            <span className="text-5xl opacity-80">📷</span>
+        </section>
+
+        {/* Section 2 */}
+        <section className="flex flex-col md:flex-row gap-8 items-start">
+          <div className="md:w-1/3 flex flex-col gap-4">
+            <div className="w-12 h-12 rounded-full bg-leica-darkgray border border-leica-gray flex items-center justify-center">
+              <Cpu className="text-leica-red" size={24} />
+            </div>
+            <h3 className="text-xl font-bold text-white">Client-Side Processing & Privacy</h3>
           </div>
-          <div className="p-6 flex flex-col gap-3">
-            <h3 className="text-lg font-bold text-white leading-snug">빈티지 렌즈의 글로우(Glow) 살리기</h3>
-            <p className="text-sm text-gray-400 leading-relaxed">
-              올드 렌즈 특유의 부드러운 감성을 디지털로 재현하려면 <strong>하이라이트 억제와 DR(Dynamic Range) 클리핑</strong>이 중요합니다. 에디터에서 'DR Clip White' 값을 낮춰 명부를 날려버리고, 라이카 특유의 묵직한 톤을 만들어 보세요.
+          <div className="md:w-2/3 flex flex-col gap-5 text-base md:text-lg text-gray-300 leading-relaxed">
+            <p>
+              Traditional online image editors often require users to upload their media to a remote server. This creates a vulnerability window where sensitive metadata could be logged, intercepted, or stored indefinitely without the user's explicit consent.
+            </p>
+            <p>
+              CleanExif eliminates this risk entirely by utilizing modern Web APIs—specifically the <code>HTML5 Canvas</code> and <code>FileReader</code> APIs. By executing all image parsing, metadata stripping, and pixel manipulation directly within the browser's JavaScript engine, the application ensures a <strong>Zero-Trust architecture</strong>. Your files never leave your local device memory, guaranteeing absolute data sovereignty and privacy.
             </p>
           </div>
-        </article>
-        
-        {/* Card 3 */}
-        <article className="bg-leica-darkgray border border-leica-gray rounded-xl overflow-hidden shadow-lg transition-transform hover:-translate-y-1 duration-300">
-          <div className="h-40 bg-black/50 flex items-center justify-center border-b border-leica-gray">
-            <span className="text-5xl opacity-80">🛡️</span>
+        </section>
+
+        {/* Section 3 */}
+        <section className="flex flex-col md:flex-row gap-8 items-start">
+          <div className="md:w-1/3 flex flex-col gap-4">
+            <div className="w-12 h-12 rounded-full bg-leica-darkgray border border-leica-gray flex items-center justify-center">
+              <ImageIcon className="text-leica-red" size={24} />
+            </div>
+            <h3 className="text-xl font-bold text-white">Advanced Color Science & Grading</h3>
           </div>
-          <div className="p-6 flex flex-col gap-3">
-            <h3 className="text-lg font-bold text-white leading-snug">서버리스 웹 툴의 완벽한 보안</h3>
-            <p className="text-sm text-gray-400 leading-relaxed">
-              기존 사진 편집기들은 사용자의 사진을 외부 서버로 전송합니다. CleanExif는 <strong>HTML5 Canvas API</strong>를 활용해 귀하의 기기 메모리에서만 연산을 수행하므로 해킹이나 데이터 유출로부터 100% 안전합니다.
+          <div className="md:w-2/3 flex flex-col gap-5 text-base md:text-lg text-gray-300 leading-relaxed">
+            <p>
+              Beyond privacy management, CleanExif integrates sophisticated color grading algorithms designed to emulate the aesthetics of classic analog photography. Understanding the technical implementation of these features can significantly enhance your creative output.
+            </p>
+            <ul className="list-none space-y-4 mt-2">
+              <li className="pl-4 border-l-2 border-gray-700">
+                <strong className="text-white block mb-1">Dynamic Range Clipping (DR Clip)</strong>
+                By intentionally compressing and clipping the highlight values (similar to the characteristic curve of film stock), users can replicate the dense, high-contrast look synonymous with vintage rangefinder cameras.
+              </li>
+              <li className="pl-4 border-l-2 border-gray-700">
+                <strong className="text-white block mb-1">Atmospheric Haze Manipulation</strong>
+                The custom Dehaze algorithm operates on the image's luminance map. Applying negative values effectively introduces a soft-focus bloom or 'haze', mimicking the halation effect seen in uncoated vintage lenses under strong backlighting.
+              </li>
+            </ul>
+          </div>
+        </section>
+
+        {/* Section 4 */}
+        <section className="flex flex-col md:flex-row gap-8 items-start">
+          <div className="md:w-1/3 flex flex-col gap-4">
+            <div className="w-12 h-12 rounded-full bg-leica-darkgray border border-leica-gray flex items-center justify-center">
+              <Edit3 className="text-leica-red" size={24} />
+            </div>
+            <h3 className="text-xl font-bold text-white">Metadata Injection (Spoofing)</h3>
+          </div>
+          <div className="md:w-2/3 flex flex-col gap-5 text-base md:text-lg text-gray-300 leading-relaxed">
+            <p>
+              For digital artists and photographers managing their online portfolios, maintaining consistent presentation is key. CleanExif provides the ability to reconstruct the EXIF Image File Directory (IFD0 and ExifIFD) from scratch. 
+            </p>
+            <p>
+              This allows users to inject custom camera makes, lens models, and exposure parameters into the final JPEG binary. Whether you are standardizing your portfolio's metadata or protecting the identity of your proprietary equipment, this feature provides granular control over the digital footprint of your published work.
             </p>
           </div>
-        </article>
+        </section>
 
       </div>
     </div>

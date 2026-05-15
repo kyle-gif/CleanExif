@@ -44,7 +44,7 @@ const Dropzone = ({ onDropFile }) => {
         <div>
           <strong className="block text-green-500 mb-1">100% Secure & Private</strong>
           <p className="text-xs text-gray-400 m-0 leading-relaxed">
-            서버에 사진이 저장되지 않습니다. 모든 메타데이터 삭제 및 픽셀 보정 연산은 귀하의 브라우저 내에서 안전하게 로컬로 처리됩니다.
+            Photos are never uploaded to any server. All metadata wiping and pixel processing happens securely and locally within your browser.
           </p>
         </div>
       </div>
