@@ -25,6 +25,14 @@
   .panel {
     @apply bg-leica-darkgray border border-leica-gray rounded-lg p-6;
   }
+
+  /* Readable legal / informational pages */
+  .prose-leica strong {
+    @apply text-white font-semibold;
+  }
+  .prose-leica a {
+    @apply break-words;
+  }
   
   /* Range Slider Custom Styling */
   input[type=range] {

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Shield, Cpu, Zap, Coffee } from 'lucide-react';
 import Dropzone from './components/Dropzone';
 import Tabs from './components/Tabs';
 import CleanExifView from './components/CleanExifView';
@@ -6,58 +7,85 @@ import ViewExifView from './components/ViewExifView';
 import PhotoEditor from './components/PhotoEditor';
 import AdPlaceholder from './components/AdPlaceholder';
 import Articles from './components/Articles';
+import Header from './components/Header';
+import Footer from './components/Footer';
+import { PrivacyPolicy, TermsOfService, AboutContact } from './components/InfoPages';
+
+const FEATURES = [
+  { icon: Shield, title: 'Total Privacy', text: 'Photos never leave your device. Everything runs in your browser.' },
+  { icon: Cpu, title: 'Client-Side', text: 'No servers, no accounts, no logs. Works even offline.' },
+  { icon: Zap, title: 'Instant & Free', text: 'View, wipe, or edit metadata in a single click — at no cost.' },
+];
 
 function App() {
   const [file, setFile] = useState(null);
   const [activeTab, setActiveTab] = useState('edit');
+  const [page, setPage] = useState('home');
+
+  const navigate = (p) => {
+    setPage(p);
+    window.scrollTo({ top: 0 });
+  };
 
   const handleDropFile = (acceptedFile) => {
     setFile(acceptedFile);
     setActiveTab('edit');
   };
 
-  const clearFile = () => {
-    setFile(null);
-  };
+  const clearFile = () => setFile(null);
 
+  // ---- Static informational pages (Privacy / Terms / About) ----
+  if (page !== 'home') {
+    return (
+      <div className="min-h-screen bg-leica-black flex flex-col">
+        <Header onNavigate={navigate} />
+        <main className="flex-1 max-w-6xl mx-auto w-full px-4 py-12">
+          {page === 'privacy' && <PrivacyPolicy onBack={() => navigate('home')} />}
+          {page === 'terms' && <TermsOfService onBack={() => navigate('home')} />}
+          {page === 'about' && <AboutContact onBack={() => navigate('home')} />}
+        </main>
+        <Footer onNavigate={navigate} />
+      </div>
+    );
+  }
+
+  // ---- Main tool ----
   return (
     <div className="min-h-screen bg-leica-black flex flex-col">
-      {/* Navbar / Header */}
-      <header className="border-b border-leica-gray bg-leica-darkgray py-4">
-        <div className="max-w-6xl mx-auto px-4 flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <div className="w-4 h-4 bg-leica-red rounded-full"></div>
-            <h1 className="text-xl font-bold text-white tracking-widest uppercase">CleanExif</h1>
-          </div>
-          <p className="hidden md:block text-xs text-leica-lightgray tracking-widest uppercase">
-            Private Photo Editor
-          </p>
-        </div>
-      </header>
+      <Header onNavigate={navigate} />
 
-      {/* Main Content */}
       <main className="flex-1 max-w-[1600px] mx-auto w-full px-4 py-8 flex flex-col xl:flex-row gap-8">
-        
-        {/* Left Sidebar (Ad Space) - Hidden on smaller screens */}
-        <div className="hidden xl:flex w-[250px] flex-col gap-6 shrink-0">
-          <div className="sticky top-6 flex flex-col gap-6">
-            {file && <AdPlaceholder type="interstitial" className="min-h-[600px]" />}
-          </div>
-        </div>
 
         {/* Center Main Column */}
         <div className="flex-1 flex flex-col min-w-0">
           {!file && (
-            <div className="flex flex-col gap-8 items-center text-center mt-4 mb-8">
-              <h2 className="text-3xl md:text-5xl font-bold text-white tracking-wide">
-                Clean<span className="text-leica-red">Exif</span>
-              </h2>
-              <p className="text-lg text-leica-lightgray max-w-2xl">
-                Free, Secure, and 100% Private EXIF Metadata Editor & Remover. <br className="hidden md:block"/>
-                Your photos never leave your device.
-              </p>
-              <div className="w-full mt-4">
+            <div className="flex flex-col gap-10 mt-2 mb-4">
+              <div className="flex flex-col gap-5 items-center text-center">
+                <span className="text-xs uppercase tracking-[0.25em] text-leica-red font-semibold">Privacy-First Photo Tool</span>
+                <h2 className="text-4xl md:text-6xl font-bold text-white tracking-tight">
+                  Clean<span className="text-leica-red">Exif</span>
+                </h2>
+                <p className="text-lg text-leica-lightgray max-w-2xl leading-relaxed">
+                  Free, secure, and 100% private EXIF metadata viewer, remover &amp; photo editor.
+                  Your photos never leave your device.
+                </p>
+              </div>
+
+              <div className="w-full max-w-2xl mx-auto">
                 <Dropzone onDropFile={handleDropFile} />
+              </div>
+
+              {/* Feature highlights */}
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-4xl mx-auto w-full">
+                {FEATURES.map(({ icon: Icon, title, text }) => (
+                  <div key={title} className="panel flex flex-col gap-3 text-left">
+                    <div className="w-10 h-10 rounded-full bg-leica-black border border-leica-gray flex items-center justify-center">
+                      <Icon className="text-leica-red" size={20} />
+                    </div>
+                    <h3 className="text-white font-semibold">{title}</h3>
+                    <p className="text-sm text-gray-400 leading-relaxed">{text}</p>
+                  </div>
+                ))}
               </div>
             </div>
           )}
@@ -65,61 +93,51 @@ function App() {
           {file && (
             <>
               <Tabs activeTab={activeTab} onChangeTab={setActiveTab} />
-              
+
               {activeTab === 'clean' && <CleanExifView file={file} onClearFile={clearFile} />}
               {activeTab === 'edit' && <PhotoEditor file={file} onClearFile={clearFile} />}
               {activeTab === 'view' && <ViewExifView file={file} />}
               {activeTab === 'support' && (
-                <div className="panel flex flex-col gap-6 text-center items-center">
-                  <h2 className="text-2xl font-bold text-white">Support Our Free Tool</h2>
-                  <p className="text-leica-lightgray max-w-lg">
-                    CleanExif is 100% free and private. If you find this tool helpful, please consider buying us a coffee on Ko-Fi or clicking an ad to help maintain development!
+                <div className="panel flex flex-col gap-5 text-center items-center">
+                  <Coffee className="text-leica-red" size={32} />
+                  <h2 className="text-2xl font-bold text-white">Support This Free Tool</h2>
+                  <p className="text-leica-lightgray max-w-lg leading-relaxed">
+                    CleanExif is 100% free and private, with no accounts or paywalls. If it saved you
+                    time, a small tip on Ko-fi helps cover hosting and keeps development going.
                   </p>
-                  
-                  <a href="https://ko-fi.com/" target="_blank" rel="noreferrer" className="btn btn-primary px-8 py-3 text-lg font-bold rounded-full my-4 inline-block max-w-xs">
+                  <a
+                    href="https://ko-fi.com/"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="btn btn-primary px-8 py-3 text-base font-bold rounded-full my-2 inline-flex"
+                  >
                     ☕ Buy me a Ko-fi
                   </a>
-
-                  <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
-                    <AdPlaceholder type="interstitial" />
-                    <AdPlaceholder type="interstitial" />
-                  </div>
-                </div>
-              )}
-              
-              {activeTab !== 'support' && (
-                <div className="mt-8">
-                  <AdPlaceholder type="banner" />
                 </div>
               )}
             </>
           )}
 
-          {/* SEO Articles at the bottom of the main column */}
+          {/* SEO / informational article content */}
           <Articles />
-          
-          {!file && (
-            <div className="mt-8">
-              <AdPlaceholder type="banner" />
-            </div>
-          )}
-        </div>
 
-        {/* Right Sidebar (Ad Space) */}
-        <div className="w-full xl:w-[250px] flex flex-col gap-6 shrink-0">
-          <div className="sticky top-6 flex flex-col gap-6">
-            {file && <AdPlaceholder type="interstitial" className="min-h-[600px]" />}
+          {/* A single in-content ad placed below substantial content */}
+          <div className="mt-12">
+            <AdPlaceholder type="banner" />
           </div>
         </div>
 
+        {/* Right Sidebar (single sticky ad, only alongside the tool) */}
+        {file && (
+          <aside className="hidden xl:block w-[300px] shrink-0">
+            <div className="sticky top-24">
+              <AdPlaceholder type="interstitial" className="min-h-[600px]" />
+            </div>
+          </aside>
+        )}
       </main>
-      
-      {/* Footer */}
-      <footer className="border-t border-leica-gray bg-leica-darkgray py-6 mt-auto">
-        <div className="max-w-6xl mx-auto px-4 text-center text-xs text-gray-500">
-          &copy; {new Date().getFullYear()} CleanExif. 100% Local Processing. No trackers.
-        </div>
-      </footer>
+
+      <Footer onNavigate={navigate} />
     </div>
   );
 }

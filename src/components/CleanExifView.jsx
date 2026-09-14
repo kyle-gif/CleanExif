@@ -1,18 +1,14 @@
-import React, { useState } from 'react';
+import React from 'react';
 import piexif from 'piexifjs';
-import { Download, Sparkles, Trash2 } from 'lucide-react';
-import AdModal from './AdModal';
+import { Download, Trash2, ShieldCheck } from 'lucide-react';
 
 const CleanExifView = ({ file, onClearFile }) => {
-  const [modalOpen, setModalOpen] = useState(false);
-  const [pendingAction, setPendingAction] = useState(null);
-
-  const processImage = (action) => {
+  const processImage = () => {
     const reader = new FileReader();
     reader.onload = (e) => {
       const dataUrl = e.target.result;
       try {
-        let newDataUrl = piexif.remove(dataUrl);
+        const newDataUrl = piexif.remove(dataUrl);
         const link = document.createElement('a');
         link.href = newDataUrl;
         link.download = `clean_${file.name}`;
@@ -25,11 +21,6 @@ const CleanExifView = ({ file, onClearFile }) => {
       }
     };
     reader.readAsDataURL(file);
-  };
-
-  const handleActionClick = (action) => {
-    setPendingAction(action);
-    setModalOpen(true);
   };
 
   if (!file) return null;
@@ -47,31 +38,27 @@ const CleanExifView = ({ file, onClearFile }) => {
 
       {!isJpeg && (
         <div className="bg-red-900/20 border border-red-900 text-red-500 p-4 rounded-lg text-center text-sm">
-          <strong>Notice:</strong> Cleaning EXIF is currently only supported for JPEG files. 
-          To prevent corruption of your RAW image, this feature is disabled. You can still use the <strong>RAW Editor</strong> or <strong>View Exif</strong> tabs.
+          <strong>Notice:</strong> Cleaning EXIF is currently only supported for JPEG files.
+          To prevent corruption of your RAW image, this feature is disabled. You can still use the <strong>Photo Editor</strong> or <strong>View EXIF</strong> tabs.
         </div>
       )}
 
-      <div className="flex flex-col sm:flex-row gap-4">
-        <button className="btn btn-primary flex-1 py-4 text-base" onClick={() => handleActionClick('clean')} disabled={!isJpeg}>
-          <Trash2 size={20} />
-          Wipe EXIF & Download
-        </button>
+      <div className="flex items-start gap-3 bg-green-900/20 border border-green-900/50 rounded-lg p-4 text-xs text-gray-400">
+        <ShieldCheck size={20} className="text-green-500 shrink-0 mt-0.5" />
+        <p className="m-0 leading-relaxed">
+          Metadata is removed entirely inside your browser. The cleaned copy downloads directly to your device &mdash; nothing is uploaded, stored, or shared.
+        </p>
       </div>
 
-      <button className="btn btn-outline mt-2" onClick={onClearFile}>
-        Upload Different Photo
+      <button className="btn btn-primary py-4 text-base" onClick={processImage} disabled={!isJpeg}>
+        <Trash2 size={20} />
+        Wipe EXIF &amp; Download
       </button>
 
-      <AdModal 
-        isOpen={modalOpen} 
-        onClose={() => setModalOpen(false)} 
-        onReward={() => {
-          if (pendingAction) processImage(pendingAction);
-        }}
-        title="Download Cleaned Image"
-        description="Watch a short ad to support our free privacy tool."
-      />
+      <button className="btn btn-outline" onClick={onClearFile}>
+        <Download size={18} className="rotate-180" />
+        Upload a Different Photo
+      </button>
     </div>
   );
 };
